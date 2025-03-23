@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import ELDLog from './ELDLog';  // Import the ELDLog component
 
 const PickupDropoffForm = ({ setRouteData }) => {
   const [pickup, setPickup] = useState('');
   const [dropoff, setDropoff] = useState('');
   const [cycleUsed, setCycleUsed] = useState('');
+  const [showELDLog, setShowELDLog] = useState(false);  // State to toggle ELDLog visibility
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -73,6 +75,19 @@ const PickupDropoffForm = ({ setRouteData }) => {
           Go to Route Details
         </Link>
       </div>
+
+      {/* Button to toggle ELD Log visibility */}
+      <div className="mt-4 text-center">
+        <button
+          onClick={() => setShowELDLog(!showELDLog)}
+          className="text-indigo-600 hover:text-indigo-800 focus:outline-none"
+        >
+          {showELDLog ? 'Hide ELD Log' : 'Add ELD Log'}
+        </button>
+      </div>
+
+      {/* Conditionally render the ELDLog component */}
+      {showELDLog && <ELDLog />}
     </div>
   );
 };
