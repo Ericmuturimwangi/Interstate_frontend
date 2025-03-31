@@ -1,15 +1,10 @@
 // api.js
 import axios from 'axios';
 
-// Replace with your actual backend URL
-const API_URL = 'https://your-django-backend-url.com/api/routes';
 
-export const fetchRouteDetails = async (routeId) => {
-  try {
-    const response = await axios.get(`${API_URL}/${routeId}`);
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching route data:', error);
-    return null;
-  }
-};
+const API_URL = process.env.REACT_APP_API_BASE_URL;
+
+fetch(`${API_BASE_URL}/api/some-endpoint/`)
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.error("Error:", error));
