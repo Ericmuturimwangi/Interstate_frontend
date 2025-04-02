@@ -24,15 +24,33 @@ const RouteDetails = () => {
     fetchTrip();
   }, [id]);
 
-  if (!routeData) return <p>No Route found for this Trip.</p>;
+  if (!routeData) return <p className="text-center text-xl text-gray-600">No Route found for this Trip.</p>;
 
   return (
-    <div className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-lg">
-      <h2>Route Details</h2>
-      <p><strong>Route ID:</strong> {routeData.id}</p>
-      <p><strong>Route:</strong> {routeData.route}</p>
-      <p><strong>Distance:</strong> {routeData.distance} km</p>
-      <p><strong>Duration:</strong> {routeData.duration} hours</p>
+    <div className="max-w-3xl mx-auto p-8 bg-white rounded-lg shadow-lg mt-8">
+      <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">Route Details</h2>
+      
+      <div className="space-y-4">
+        <div className="flex justify-between">
+          <p className="font-semibold text-lg text-gray-700"><strong>Route ID:</strong></p>
+          <p className="text-lg text-gray-600">{routeData.id}</p>
+        </div>
+
+        <div className="flex justify-between">
+          <p className="font-semibold text-lg text-gray-700"><strong>Route:</strong></p>
+          <p className="text-lg text-gray-600">{routeData.route}</p>
+        </div>
+
+        <div className="flex justify-between">
+          <p className="font-semibold text-lg text-gray-700"><strong>Distance:</strong></p>
+          <p className="text-lg text-gray-600">{routeData.distance} km</p>
+        </div>
+
+        <div className="flex justify-between">
+          <p className="font-semibold text-lg text-gray-700"><strong>Duration:</strong></p>
+          <p className="text-lg text-gray-600">{routeData.duration} hours</p>
+        </div>
+      </div>
     </div>
   );
 };
