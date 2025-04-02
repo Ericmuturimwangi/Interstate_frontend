@@ -5,14 +5,20 @@ import RouteDetails from './components/RouteDetails';
 import ELDLog from './components/ELDLog';
 
 const App = () => {
-  const [routeData, setRouteData] = useState(null);
+  const [routeData, setRouteData] = useState(null); // State for route data
 
   return (
     <Router>
       <div className="container mx-auto p-4">
         <Routes>
-          <Route path="/" element={<PickupDropoffForm setRouteData={setRouteData} />} />
-          <Route path="/route-details" element={<RouteDetails routeData={routeData} />} />
+          <Route 
+            path="/" 
+            element={<PickupDropoffForm setRouteData={setRouteData} />} 
+          />
+          <Route 
+            path="/routes/:id" 
+            element={<RouteDetails routeData={routeData} />} // Pass routeData to RouteDetails
+          />
           <Route path="/eld-log" element={<ELDLog />} />
         </Routes>
       </div>

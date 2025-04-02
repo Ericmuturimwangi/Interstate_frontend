@@ -1,30 +1,38 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
-const RouteDetails = ({ routeId }) => {
+const RouteDetails = () => {
+  const { id } = useParams(); // id is the Trip ID
   const [routeData, setRouteData] = useState(null);
 
   useEffect(() => {
-    const fetchRoute = async () => {
+    const fetchTrip = async () => {
       try {
-        const response = await axios.get(`https://your-backend-url.com/api/routes/${routeId}/`);
-        setRouteData(response.data);
+        const tripResponse = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/trips/${id}/`);
+        console.log("Trip Data:", tripResponse.data);
+        
+        // Accessing the routes array and getting the first route, since it's now an array
+        if (tripResponse.data.routes && tripResponse.data.routes.length > 0) {
+          setRouteData(tripResponse.data.routes[0]);  // Use the first route in the array
+        }
       } catch (error) {
-        console.error('Error fetching route details:', error);
+        console.error("Error fetching trip details:", error);
       }
     };
 
-    fetchRoute();
-  }, [routeId]);
+    fetchTrip();
+  }, [id]);
 
-  if (!routeData) return <p>Loading...</p>;
+  if (!routeData) return <p>No Route found for this Trip.</p>;
 
   return (
     <div className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-lg">
       <h2>Route Details</h2>
-      <p><strong>Pickup:</strong> {routeData.pickup}</p>
-      <p><strong>Dropoff:</strong> {routeData.dropoff}</p>
-      <p><strong>Cycle Hours:</strong> {routeData.cycle}</p>
+      <p><strong>Route ID:</strong> {routeData.id}</p>
+      <p><strong>Route:</strong> {routeData.route}</p>
+      <p><strong>Distance:</strong> {routeData.distance} km</p>
+      <p><strong>Duration:</strong> {routeData.duration} hours</p>
     </div>
   );
 };

@@ -1,25 +1,28 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; 
+import { Link } from 'react-router-dom';  
 import axios from 'axios';  
 
 const PickupDropoffForm = ({ setRouteData }) => {
   const [pickup, setPickup] = useState('');
   const [dropoff, setDropoff] = useState('');
   const [cycleUsed, setCycleUsed] = useState('');
-  const [currentLocation, setCurrentLocation] = useState('');  // Add state for current location
+  const [currentLocation, setCurrentLocation] = useState('');
+  const [routeData, setLocalRouteData] = useState(null); // Local state to store route data
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = { 
-      current_location: currentLocation,  // Add current_location field
+      current_location: currentLocation,
       pickup_location: pickup,
       dropoff_location: dropoff,
       current_cycle_hours: parseFloat(cycleUsed),
+      trip: 1 // Assuming you want to link to a trip with ID 1. Adjust as needed.
     };
 
     try {
       const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/routes/`, data);
-      setRouteData(response.data);
+      setRouteData(response.data);  // Update parent state in App.js
+      setLocalRouteData(response.data);  // Update local state to trigger link rendering
       alert('Route submitted successfully!');
     } catch (error) {
       console.error('Error submitting route:', error);
@@ -32,7 +35,7 @@ const PickupDropoffForm = ({ setRouteData }) => {
       <form onSubmit={handleSubmit} className="space-y-4">
         <input 
           type="text" 
-          placeholder="Enter Current Location"  // Add field for current location
+          placeholder="Enter Current Location"
           value={currentLocation} 
           onChange={(e) => setCurrentLocation(e.target.value)} 
           required 
@@ -69,9 +72,17 @@ const PickupDropoffForm = ({ setRouteData }) => {
           Submit
         </button>
       </form>
-      <div className="text-center mt-4">
-        <Link to="/route-details" className="text-blue-500 hover:underline">Go to Route Details</Link>
-      </div>
+
+      {/* Conditionally render the link if routeData is available */}
+      {routeData && (
+        <div className="text-center mt-4">
+          <p>Generated Route ID: {routeData.id}</p>
+          <p>Trip ID: {routeData.trip}</p> {/* Debugging log */}
+          <Link to={`/routes/${routeData.id}`} className="text-blue-500 hover:underline">
+            Go to Route Details
+          </Link>
+        </div>
+      )}
     </div>
   );
 };
