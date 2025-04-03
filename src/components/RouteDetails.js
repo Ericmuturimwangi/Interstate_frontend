@@ -79,7 +79,7 @@ const RouteDetails = () => {
 
         <div className="flex justify-between">
           <p className="font-semibold text-lg text-gray-700"><strong>Distance:</strong></p>
-          <p className="text-lg text-gray-600">{routeData.distance} km</p>
+          <p className="text-lg text-gray-600">{routeData.distance ? `${routeData.distance.toFixed(2)} km` : "Not available"}</p>
         </div>
 
         <div className="flex justify-between">
